@@ -1,0 +1,160 @@
+{% extends 'index.html' %}
+{% load static %}
+		{% block content_body %}
+		<body class="">
+		<nav class="sb-topnav navbar navbar-expand navbar-light bg-clr">
+			<a class="navbar-brand logo-brand" href="index.html"><img src="{% static 'images/logo.svg' %}" height="40"/></a>
+			<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+			<a href="#" class="frnt-link"><i class="fas fa-external-link-alt"></i>Home</a>
+			<ul class="navbar-nav ml-auto mr-md-0">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+
+						<a class="dropdown-item admin-dropdown-item" href="{% url 'logout_view' %}">Logout</a>
+					</div>
+				</li>
+			</ul>
+		</nav>
+		<div id="layoutSidenav">
+			<div id="layoutSidenav_nav">
+				<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+					<div class="sb-sidenav-menu">
+						<div class="nav">
+							{% if request.user.is_superuser %}
+
+							<a class="nav-link active" href="{% url 'main_login_index' %}">
+								<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+								Dashboard
+							</a>
+							{% else %}
+							<a class="nav-link active" href="	{% url 'vender_details' user.id %}">
+								<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+								Dashboard
+							</a>
+
+							{% endif %}
+
+
+							{% if request.user.is_superuser %}
+
+							<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+								<div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+								Vendors
+								<div class="sb-sidenav-collapse-arrow"><i class="fas fa-users"></i></div>
+							</a>
+							<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+								<nav class="sb-sidenav-menu-nested nav">
+									<a class="nav-link sub_nav_link" href="{% url 'create_vender' %}">Create Vendors</a>
+									<a class="nav-link sub_nav_link" href="{% url 'view_vender' %}">All Vendors</a>
+
+								</nav>
+							</div>
+
+							{% endif %}
+
+							{% if request.user.is_superuser %}
+
+							{% else %}
+							<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLocations" aria-expanded="false" aria-controls="collapseLocations">
+								<div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
+								Users
+								<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse" id="collapseLocations" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+								<nav class="sb-sidenav-menu-nested nav">
+									<a class="nav-link sub_nav_link" href="{% url 'create_aao_user' %}">Create Users</a>
+									<a class="nav-link sub_nav_link" href="{% url 'view_aao_user' %}">All Created Users</a>
+									<a class="nav-link sub_nav_link" href="{% url 'vender_transection_view' %}">all Transection</a>
+
+
+								</nav>
+							</div>
+								{% endif %}
+
+						</div>
+					</div>
+				</nav>
+			</div>
+			<div id="layoutSidenav_content">
+				{% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message | safe }}
+                </div>
+                {% endfor %}
+				{% block content_main %}
+				<main>
+					<div class="container-fluid">
+						<h2 class="mt-30 page-title">Dashboard</h2>
+						<ol class="breadcrumb mb-30">
+							<li class="breadcrumb-item active">Dashboard</li>
+						</ol>
+						<div class="row">
+							<div class="col-xl-3 col-md-6">
+								<div class="dashboard-report-card purple">
+									<div class="card-content">
+										<span class="card-title">Order Pending</span>
+										<span class="card-count">2</span>
+									</div>
+									<div class="card-media">
+										<i class="fab fa-rev"></i>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-3 col-md-6">
+								<div class="dashboard-report-card red">
+									<div class="card-content">
+										<span class="card-title">Order Cancel</span>
+										<span class="card-count">0</span>
+									</div>
+									<div class="card-media">
+										<i class="far fa-times-circle"></i>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-3 col-md-6">
+								<div class="dashboard-report-card info">
+									<div class="card-content">
+										<span class="card-title">Order Process</span>
+										<span class="card-count">5</span>
+									</div>
+									<div class="card-media">
+										<i class="fas fa-sync-alt rpt_icon"></i>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-3 col-md-6">
+								<div class="dashboard-report-card success">
+									<div class="card-content">
+										<span class="card-title">Today Income</span>
+										<span class="card-count">$9568.00</span>
+									</div>
+									<div class="card-media">
+										<i class="fas fa-money-bill rpt_icon"></i>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</main>
+					{% endblock %}
+
+				<footer class="py-4 bg-footer mt-auto">
+					<div class="container-fluid">
+						<div class="d-flex align-items-center justify-content-between small">
+							<div class="text-muted-1">© 2021 <b>Aaonext</b> <a href="#">by Kytics</a> </div>
+							<div class="footer-links">
+								<a href="#">Privacy Policy</a>
+								<a href="#">Terms &amp; Conditions</a>
+							</div>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>
+		{% endblock %}

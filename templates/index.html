@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<title>Aaonext</title>
+		<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+		<link href="{% static 'css/admin-style.css' %}" rel="stylesheet">
+		{% block content_css %}
+
+		{% endblock %}
+
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+	</head>
+	{% block content_body %}
+	<body class="bg-sign">
+
+		<div id="layoutAuthentication">
+			<div id="layoutAuthentication_content">
+				<main>
+					<div class="container">
+						<div class="row justify-content-center">
+							<div class="col-lg-5">
+								<div class="card shadow-lg border-0 rounded-lg mt-5">
+									<div class="card-header card-sign-header">
+										<h3 class="text-center font-weight-light my-4"><img src="{% static 'images/logo.svg' %}" height="40"/>Login</h3>
+									</div>
+									<div class="card-body">
+										<form method="post" action="{% url 'main_login' %}" >
+											<div class="form-group">
+												<label class="form-label" for="inputEmailAddress">Email </label>
+												<input class="form-control" id="inputEmailAddress"  name="email" type="email" placeholder="Enter Email ID">
+											</div>
+											<div class="form-group">
+												<label class="form-label" for="inputPassword">Password*</label>
+												<input class="form-control" id="inputPassword"  name="password" type="password" placeholder="Enter password">
+											</div>
+											<!-- <div class="form-group">
+												<div class="custom-control custom-checkbox">
+													<input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" />
+													<label class="custom-control-label" for="rememberPasswordCheck">Remember password</label>
+												</div>
+											</div> -->
+											<div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+													<input class="btn btn-sign hover-btn" id="submit123" type="submit" />
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+		</div>
+			{% endblock %}
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="{% static 'js/scripts.js' %}"></script>
+	</body>
+
+
+</html>

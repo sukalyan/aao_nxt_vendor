@@ -1,0 +1,77 @@
+{% extends 'home.html' %}
+
+	{% block content_main %}
+
+
+
+  <main>
+      <div class="container-fluid">
+          <h1 class="mt-4">vender transection view</h1>
+          <ol class="breadcrumb mb-4">
+              <li class="breadcrumb-item active">vender transection view </li>
+
+          </ol>
+
+          <div class="row justify-content-between">
+              <div class="col-4">
+                  Total data found:{{ totaldata }}
+              </div>
+              <div class="col-4">
+                  showing data :{{ showingdata }}
+              </div>
+          </div>
+
+
+
+          <table class="table table-striped table-sm" style="font-size:0.8em">
+
+
+              <tr>
+
+                  <!-- <th>QR_CODE</th> -->
+
+                  <th>sl no</th>
+                  <th>debited amount</th>
+                  <th>remaining amount </th>
+                  <th>for user</th>
+
+                  <th>created date</th>
+
+
+              </tr>
+
+
+              {% for item in query_results %}
+              <tr>
+
+
+                  <td>{{forloop.counter|add:pagedata_starting}}</td>
+                  <td>{{ item.vtd_debit }}</td>
+                  <td>{{ item.vtd_total_remaining }}</td>
+                  <td>{{ item.vtd_trans_for.auod_user.aud_username }}</td>
+                  <td>{{ item.vtd_created_at }}</td>
+
+
+              </tr>
+              {% endfor %}
+          </table>
+          <nav aria-label="...">
+              <ul class="pagination pagination-sm justify-content-center">
+
+                  <li class="page-item"><a class="page-link" href="{% url 'vender_transection_view_pagination' prev_pagenumber  %}">
+                          pre
+                      </a></li>
+                  <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                  <li class="page-item"><a class="page-link" href="{% url 'vender_transection_view_pagination' next_page_number  %}">
+                          next </a></li>
+              </ul>
+          </nav>
+      </div>
+  </main>
+
+
+
+
+
+
+{% endblock %}

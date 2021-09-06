@@ -1,0 +1,63 @@
+{% extends 'home.html' %}
+
+	{% block content_main %}
+  <main>
+    <div class="container-fluid">
+      <h2 class="mt-30 page-title">Vendor</h2>
+      <ol class="breadcrumb mb-30">
+        <li class="breadcrumb-item"><a href="home.html">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="#">Vendor</a></li>
+        <li class="breadcrumb-item active">Create Vendor</li>
+      </ol>
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-static-2 mb-30">
+            <div class="card-title-2">
+              <h4>Create Vendor</h4>
+            </div>
+            <div class="card-body-table">
+              <div class="news-content-right pd-20">
+                <form class="" action="{% url 'create_vender' %}" method="post">
+                  {% csrf_token %}
+
+                <div class="form-group">
+                  <label class="form-label">User Name</label>
+                  <input type="text" class="form-control" name="username" placeholder="Eg.sanchit@1234" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">First Name</label>
+                  <input type="text" class="form-control" name="first_name" placeholder="Eg.sanchit" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Last Name</label>
+                  <input type="text" class="form-control" name="last_name" placeholder="Eg.Mohapatra" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Id</label>
+                  <input type="text" class="form-control" name="email" placeholder="Eg.sanchit@gmail.com" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Mobile Number</label>
+                  <input type="text" class="form-control" name="mobile_no" placeholder="10 digit Mobile Number" pattern="[0-9]{10}" >
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Password</label>
+                  <input type="password" class="form-control" name="password" placeholder="password" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
+                </div>
+
+
+                <button class="save-btn hover-btn" type="submit">Create Vendor</button>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+{% endblock %}
