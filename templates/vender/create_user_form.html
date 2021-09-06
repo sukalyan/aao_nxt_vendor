@@ -1,0 +1,76 @@
+{% extends 'home.html' %}
+
+	{% block content_main %}
+
+
+  <main>
+    <div class="container-fluid">
+      <h2 class="mt-30 page-title">Users</h2>
+      <ol class="breadcrumb mb-30">
+        <li class="breadcrumb-item"><a href="home.html">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="#">User</a></li>
+        <li class="breadcrumb-item active">Create User</li>
+      </ol>
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-static-2 mb-30">
+            <div class="card-title-2">
+              <h4>Create User</h4>
+            </div>
+
+            <div class="card-body-table">
+              <div class="news-content-right pd-20">
+                <form class="" action="{% url 'create_aao_user' %}" method="post">
+                  {% csrf_token %}
+
+
+                <div class="form-group">
+                  <label class="form-label">User Name</label>
+                  <input type="text" class="form-control" name="username" placeholder="Eg.sanchit" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Id</label>
+                  <input type="text" class="form-control"  name="email_id" placeholder="Eg.sanchit@gmail.com" >
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Mobile Number</label>
+                  <input type="text" class="form-control" name="mobile_number" placeholder="10 digit Mobile Number" pattern="[0-9]{10}" required>
+                </div>
+								{% for item in vender_details %}
+
+
+								<div class="form-group">
+                  <label class="form-label">Plan Name</label>
+                  <input type="text" class="form-control" name="plane_name" placeholder="{{ item.vd_plan_subscribe }}" valaue="{{ item.vd_plan_subscribe }}" readonly>
+                </div>
+
+								{% endfor %}
+                <div class="form-group">
+                  <label class="form-label">Package</label>
+                  <select id="categtory" name="package_categtory" class="form-control">
+                    <option >--Select Package- in months-</option>
+                    <option selected value="1">1</option>
+                   
+
+
+                  </select>
+                </div>
+
+
+
+                <button class="save-btn hover-btn" type="submit">Create User</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+
+
+
+
+{% endblock %}
