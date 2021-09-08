@@ -14,6 +14,8 @@ class Vender_Details(models.Model):
     vd_created_at = models.DateTimeField(auto_now_add=True)
     vd_last_modified_on = models.DateTimeField(auto_now=True)
     vd_is_active = models.BooleanField(default=True)
+    vd_api_key = models.TextField(max_length=255, default=None)
+    vd_api_secrate = models.TextField(max_length=255, default=None)
 
 class Aoo_User_Details(models.Model):
     aud_id = models.AutoField(auto_created=True, primary_key=True,)

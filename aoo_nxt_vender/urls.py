@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from rest_framework import routers
 from . import views
+import  aao_vender.restviews  as restviews
+
+router = routers.DefaultRouter()
+router.register(r'users', restviews.UserViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +30,6 @@ urlpatterns = [
     path('login/', views.main_login, name='main_login'),
     path('logout_view/', views.logout_view, name='logout_view'),
     path('error_page/', views.error_page, name='error_page'),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

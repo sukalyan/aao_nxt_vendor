@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from .models import *
 from .utils import transection_fun,creat_remote_user,create_remote_user2
 
@@ -11,14 +12,16 @@ from datetime import date, timedelta
 
 from django.utils import timezone
 import pytz
+import secrets
 
 
 
 
 
 @login_required(login_url='/login/')
+@user_passes_test(lambda u: u.is_superuser)
 def create_vender(request):
-
+    
 
     if request.method == "GET":
         print("hello")
@@ -69,7 +72,9 @@ def create_vender(request):
 
             vender = Vender_Details(vd_user=user,
                                     vd_mob_number=str(mobile_no),
-                                    vd_is_active = True
+                                    vd_is_active = True,
+                                    vd_api_key= secrets.token_hex(4)+"_"+secrets.token_hex(16),
+                                    vd_api_secrate= secrets.token_hex(4)+"_"+secrets.token_hex(16)
                                 )
             vender.save()
 
@@ -89,6 +94,7 @@ def create_vender(request):
 
 
 @login_required(login_url='/login/')
+@user_passes_test(lambda u: u.is_superuser)
 def view_vender(request):
     if request.method =='GET':
         #query_results = site_master.objects.all()
@@ -118,6 +124,7 @@ def view_vender(request):
         return render(request, 'vender/vender_view.html', context)
 
 @login_required(login_url='/login/')
+@user_passes_test(lambda u: u.is_superuser)
 def view_vender_pagination(request,page_number):
     if request.method =='GET':
 
@@ -163,9 +170,10 @@ def view_vender_pagination(request,page_number):
 
 
 @login_required(login_url='/login/')
+@user_passes_test(lambda u: u.is_superuser)
 def vender_details(request, used_id):
     if request.method == 'GET':
-
+        
         userexists = User.objects.filter(pk=used_id).exists()
         if userexists:
             user = User.objects.get(pk=used_id)
@@ -177,8 +185,12 @@ def vender_details(request, used_id):
         else:
             messages.error(request, "user not found.")
             return redirect('view_vender')
+            
+            
+
 
 @login_required(login_url='/login/')
+@user_passes_test(lambda u: u.is_superuser)
 def vender_add_credit (request, used_id):
     if request.method == 'POST':
 
@@ -211,6 +223,7 @@ def vender_add_credit (request, used_id):
 
 
 @login_required(login_url='/login/')
+@user_passes_test(lambda u: u.is_superuser)
 def vender_add_plan (request, used_id):
     if request.method == 'POST':
 
@@ -240,6 +253,7 @@ def vender_add_plan (request, used_id):
 
 
 @login_required(login_url='/login/')
+@user_passes_test(lambda u: u.is_superuser)
 def vender_add_per_user_price (request, used_id):
     if request.method == 'POST':
 
@@ -268,7 +282,21 @@ def vender_add_per_user_price (request, used_id):
         return redirect('view_vender')
 
 
+@login_required(login_url='/login/')
+def vender_dashboard(request):
+    if request.method == 'GET':
 
+        userexists = User.objects.filter(pk=request.user.id).exists()
+        if userexists:
+            user = User.objects.get(pk=request.user.id)
+            vender_dashboard = Vender_Details.objects.filter(vd_user=user)
+            context = {"vender_details": vender_dashboard
+                       }
+            #print(context)
+            return render(request, 'vender/vender_dashboard.html', context)
+        else:
+            messages.error(request, "user not found.")
+            return redirect('view_vender')
 
 
 @login_required(login_url='/login/')

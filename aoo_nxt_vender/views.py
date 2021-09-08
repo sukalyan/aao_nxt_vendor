@@ -47,8 +47,12 @@ def main_login(request):
             #
             # #2 project site_manager
             # #3 project user
-            context = {"user":user,"groupid":'groupid','groupname':'groupname'}
-            return render(request, 'home.html', context)
+            
+            if(user.is_superuser):
+                context = {"user":user,"groupid":'groupid','groupname':'groupname'}
+                return render(request, 'home.html', context)
+            else:
+                return redirect('vender_dashboard')
 
         else:
             context = {"user":"wp","login_try":"Y"}

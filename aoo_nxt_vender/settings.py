@@ -30,6 +30,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
+RENDERER_CLASSES = [
+    'rest_framework.renderers.JSONRenderer',
+    'rest_framework_xml.renderers.XMLRenderer',
+]
+PARSER_CLASSES = [
+    'rest_framework.parsers.FormParser',
+    'rest_framework.parsers.JSONParser',
+    'rest_framework.parsers.MultiPartParser'
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': PARSER_CLASSES,
+    'DEFAULT_RENDERER_CLASSES': RENDERER_CLASSES
+}
+
 
 # Application definition
 
@@ -41,6 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'aao_vender',
+    'rest_framework',
+    'rest_framework_xml'
 ]
 
 MIDDLEWARE = [

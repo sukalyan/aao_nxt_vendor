@@ -3,7 +3,7 @@ from .models import *
 import http.client
 import json
 import requests
-
+from config import *
 
 
 # user_data={'username':username,
@@ -66,8 +66,8 @@ def creat_remote_user(mobile_number,username,plan):
 
 def create_remote_user2(mobile_number,username,plan):
     try:
-        url = "https://api.aaonxt.com/users/outerapi"
-
+        url = conf['AAO_NXT_URL']+"users/outerapi"
+        
         payload='''{"name":"'''+username +'''","mobile":"+91'''+mobile_number+'''","plan":"'''+plan+'''"}'''
         print('payload----------',payload)
         headers = {
