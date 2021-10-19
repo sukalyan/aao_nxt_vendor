@@ -1,0 +1,144 @@
+{% extends 'home.html' %}
+
+{% load static %}
+
+{% block content_css %}
+<link href="{% static 'css/vender_details.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+	{% block content_main %}
+
+
+
+  <main>
+      <div class="container-fluid">
+          <h1 class="mt-4">User order view</h1>
+          <ol class="breadcrumb mb-4">
+              <li class="breadcrumb-item active">User order view</li>
+
+          </ol>
+
+					{% for item in aao_user_detail %}
+
+
+					<div class="card-body-table">
+						<div class="news-content-right pd-20">
+					<form class="" action="{% url 'create_aao_user_extend_package' %}" method="post">
+						{% csrf_token %}
+
+
+					<div class="form-group">
+						<label class="form-label">User Name</label>
+						<input type="text" class="form-control" name="username" placeholder="{{ item.aud_username }}" value="{{ item.aud_username  }}" required readonly>
+					</div>
+					<div class="form-group">
+						<label class="form-label">Email Id</label>
+						<input type="text" class="form-control"  name="email_id" placeholder="{{ item.aud_email }}" value="{{ item.aud_email  }}" required readonly>
+					</div>
+					<div class="form-group">
+						<label class="form-label">Mobile Number</label>
+						<input type="text" class="form-control" name="mobile_number" placeholder="{{ item.aud_mobile_number }}" value="{{ item.aud_mobile_number  }}" pattern="[0-9]{10}" required readonly>
+					</div>
+					{% for item2 in vender_details %}
+
+
+					<div class="form-group">
+						<label class="form-label">Plan Name</label>
+						<input type="text" class="form-control" name="plane_name" placeholder="{{ item2.vd_plan_subscribe }}" value="{{ item2.vd_plan_subscribe  }}" readonly>
+					</div>
+
+					{% endfor %}
+					<div class="form-group">
+						<label class="form-label">Package</label>
+						<select id="categtory" name="package_categtory" class="form-control">
+							<option >--Select Package- in months-</option>
+							<option selected value="1">1</option>
+
+
+
+						</select>
+					</div>
+
+					<button class="save-btn hover-btn float-right" type="submit">extend_package</button>
+					</form>
+					</div>
+
+					</div>
+
+						    {% endfor %}
+
+
+
+
+
+
+					<div class="row justify-content-between">
+							<div class="col-4">
+									Total data found:{{ totaldata }}
+							</div>
+							<div class="col-4">
+									showing data :{{ showingdata }}
+							</div>
+					</div>
+
+
+
+          <table class="table table-striped table-sm" style="font-size:0.8em">
+
+
+              <tr>
+
+
+
+
+                  <!-- <th>QR_CODE</th> -->
+
+                  <th>sl no</th>
+                  <th>Package Name</th>
+                  <th>For Month</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Order Date</th>
+
+              </tr>
+
+
+              {% for item in query_results %}
+              <tr>
+
+
+                  <td>{{forloop.counter|add:pagedata_starting}}</td>
+                  <td>{{ item.auod_subsc_package_name }}</td>
+                  <td>{{ item.auod_subsc_package }}</td>
+
+									<td>{{item.auod_start_date|date:'d-m-Y' }}</td>
+									<td>{{item.auod_end_date|date:'d-m-Y' }}</td>
+
+                  <td >{{ item.auod_created_at|date:'d-m-Y' }}</td>
+
+
+
+              </tr>
+              {% endfor %}
+          </table>
+          <nav aria-label="...">
+              <ul class="pagination pagination-sm justify-content-center">
+
+                  <li class="page-item"><a class="page-link" href="{% url 'view_aao_user_order_pagination' aao_user_id=aao_user_id page_number=prev_pagenumber  %}">
+                          pre
+                      </a></li>
+                  <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                  <li class="page-item"><a class="page-link" href="{% url 'view_aao_user_order_pagination' aao_user_id=aao_user_id page_number=next_page_number  %}">
+                          next </a></li>
+              </ul>
+          </nav>
+      </div>
+  </main>
+
+
+
+
+
+
+{% endblock %}

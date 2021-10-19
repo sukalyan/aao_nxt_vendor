@@ -53,7 +53,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError({"detail":"Member Plan is not assigned yet, contact admin"})
         
         remotestatus = create_remote_user2(mobile,username,vender_plan)
-        
+        print(remotestatus)
         if "success" in remotestatus:
             pass
         else:
@@ -75,6 +75,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
                     )
         user_aao.save()
+        
+        
         user_data={'username':username,
                       'email_id':email,
                       'mobile_number':mobile,
@@ -83,6 +85,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
                       'end_date':end_date,
                       'peruser_price':peruser_price,
                       'remaining_balance':remaining_balance}
-        result_tran = transection_fun(user,user_aao,totalprice,user_data)
-    
+        
+        result_tran = transection_fun(user,user_aao,totalprice,user_data,vender_plan)
+        
         return validated_data

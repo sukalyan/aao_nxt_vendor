@@ -48,7 +48,7 @@ class UserViewSet(viewsets.ModelViewSet):
     renderer_classes = (JSONRenderer, XMLRenderer)
     
     def handle_exception(self, exc):
-        print(type(exc))
+        
         if isinstance(exc, Http404):
             return Response({'status': 'Failed',"data":"No Record Found"},status=status.HTTP_404_NOT_FOUND)
             
@@ -59,8 +59,10 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'status': 'Failed',"data":exc.detail},status=status.HTTP_400_BAD_REQUEST)
     
     def create(self, request, *args, **kwargs):
+        
         response_data=super(UserViewSet, self).create(request, *args, **kwargs)
-        return Response({"status": "Success","data":response_data.data})   # Your overrid
+        return Response({"status": "Success","data": response_data.data})   # Your overrid
+        
         
     def list(self, request, *args, **kwargs):
         response_data=super(UserViewSet, self).list(request, *args, **kwargs)
