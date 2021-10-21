@@ -53,8 +53,8 @@ class Aoo_User_Order_Details(models.Model):
 class Vender_Transection_Details(models.Model):
     vtd_id = models.AutoField(auto_created=True, primary_key=True,)
     vtd_vender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s_vender')
-    vtd_debit = models.PositiveIntegerField( default=0 )
-    vtd_total_remaining = models.PositiveIntegerField( default=0 )
+    vtd_debit = models.FloatField( default=0, null=True)
+    vtd_total_remaining = models.FloatField( default=0, null=True)
     vtd_trans_for = models.ForeignKey(Aoo_User_Order_Details, on_delete=models.CASCADE, related_name='%(class)s_trans_for')
     vtd_created_at = models.DateTimeField(auto_now_add=True)
     vtd_last_modified_on = models.DateTimeField(auto_now=True)
