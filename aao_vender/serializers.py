@@ -6,25 +6,9 @@ from .utils import transection_fun,creat_remote_user,create_remote_user2
 from django.utils import timezone
 from rest_framework.response import Response
 
-class UserStatusSerializer(serializers.HyperlinkedModelSerializer):
-    aud_mobile_number = serializers.CharField(
-            required=True,
-            validators=[UniqueValidator(queryset=Aoo_User_Details.objects.all(),message="Mobile Number Already Exist In System")]
-            )
-    class Meta:
-        model = Aoo_User_Details
-        fields = ['aud_mobile_number']
+
     
-    
-    def retrieve(self,validated_data):
-        mobile = validated_data['aud_mobile_number']
-        
-        user = None   
-        request = self.context.get("request")
-        if request and hasattr(request, "user"):
-            user = request.user
-        vendor = Vender_Details.objects.get(vd_user=user)
-        return validated_data
+   
         
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     
