@@ -5,9 +5,9 @@
 
 <main>
     <div class="container-fluid">
-        <h1 class="mt-4">Vendors</h1>
+        <h1 class="mt-4">vendor</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Vendors List</li>
+            <li class="breadcrumb-item active">vendor view</li>
 
         </ol>
 
@@ -22,18 +22,19 @@
 
 
 
-        <table class="table table-striped">
+        <table class="table table-striped table-sm" style="font-size:0.8em" >
             <tr>
 
-                <th>Action</th>
-                <th>Sl No.</th>
-                <th>Last Login</th>
-                <th>Username</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Is Active</th>
-                <th>Date Joined</th>
+                <th>id</th>
+                <th>slno</th>
+                <th>last_login</th>
+                <th>username</th>
+                <th>first_name</th>
+                <th>last_name</th>
+                <th>email</th>
+                <th>is_active</th>
+                <th>date_joined</th>
+								<th>User created</th>
 
 
             </tr>
@@ -41,18 +42,23 @@
             {% for item in query_results %}
             <tr>
 
-                <td><a class="page-link" href="{% url 'vender_details' item.id %}">
+                <td><a class="page-link" href="{% url 'vender_details' item.vd_user.id %}">
                         Details
                     </a></td>
                 <td>{{forloop.counter|add:pagedata_starting}}</td>
 
-                <td>{{ item.last_login }}</td>
-                <td>{{ item.username }}</td>
-                <td>{{ item.first_name }}</td>
-                <td>{{ item.last_name }}</td>
-                <td>{{ item.email }}</td>
-                <td>{{ item.is_active }}</td>
-                <td>{{ item.date_joined }}</td>
+                <td>{{ item.vd_user.last_login }}</td>
+                <td>{{ item.vd_user.username }}</td>
+                <td>{{ item.vd_user.first_name }}</td>
+                <td>{{ item.vd_user.last_name }}</td>
+                <td>{{ item.vd_user.email }}</td>
+                <td>{{ item.vd_user.is_active }}</td>
+                <td>{{ item.vd_user.date_joined }}</td>
+
+								<td><a class="  page-link btn btn-sm btn-block" href="{% url 'users_of_vender' item.vd_user.id %}">
+                        {{ item.vd_aao_user }}
+                    </a></td>
+
 
 
             </tr>

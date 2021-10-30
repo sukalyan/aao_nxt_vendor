@@ -6,7 +6,26 @@ from .utils import transection_fun,creat_remote_user,create_remote_user2
 from django.utils import timezone
 from rest_framework.response import Response
 
-
+class UserStatusSerializer(serializers.HyperlinkedModelSerializer):
+    aud_mobile_number = serializers.CharField(
+            required=True,
+            validators=[UniqueValidator(queryset=Aoo_User_Details.objects.all(),message="Mobile Number Already Exist In System")]
+            )
+    class Meta:
+        model = Aoo_User_Details
+        fields = ['aud_mobile_number']
+    
+    
+    def retrieve(self,validated_data):
+        mobile = validated_data['aud_mobile_number']
+        
+        user = None   
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        vendor = Vender_Details.objects.get(vd_user=user)
+        return validated_data
+        
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     
     aud_username = serializers.CharField(
@@ -53,7 +72,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError({"detail":"Member Plan is not assigned yet, contact admin"})
         
         remotestatus = create_remote_user2(mobile,username,vender_plan)
-        
+        print(remotestatus)
         if "success" in remotestatus:
             pass
         else:
@@ -75,6 +94,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
                     )
         user_aao.save()
+        
+        
         user_data={'username':username,
                       'email_id':email,
                       'mobile_number':mobile,
@@ -83,6 +104,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
                       'end_date':end_date,
                       'peruser_price':peruser_price,
                       'remaining_balance':remaining_balance}
-        result_tran = transection_fun(user,user_aao,totalprice,user_data)
-    
+        
+        result_tran = transection_fun(user,user_aao,totalprice,user_data,vender_plan)
+        
         return validated_data

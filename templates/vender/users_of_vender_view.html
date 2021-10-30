@@ -6,9 +6,9 @@
 
   <main>
       <div class="container-fluid">
-          <h1 class="mt-4">vendor transection view</h1>
+          <h1 class="mt-4">aoonxt user view</h1>
           <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item active">vendor transection view </li>
+              <li class="breadcrumb-item active">aoonxt user</li>
 
           </ol>
 
@@ -31,12 +31,14 @@
                   <!-- <th>QR_CODE</th> -->
 
                   <th>sl no</th>
-                  <th>debited amount</th>
-                  <th>remaining amount </th>
-                  <th>for user</th>
+                  <th>user name</th>
+                  <th>email</th>
+                  <th>mobile number</th>
 
-                  <th>created date</th>
-
+                  <th>package month</th>
+                  <th>start date</th>
+                  <th>end date</th>
+                  <th>creataed date</th>
 
               </tr>
 
@@ -46,10 +48,15 @@
 
 
                   <td>{{forloop.counter|add:pagedata_starting}}</td>
-                  <td>{{ item.vtd_debit }}</td>
-                  <td>{{ item.vtd_total_remaining }}</td>
-                  <td>{{ item.vtd_trans_for.auod_user.aud_username }}</td>
-                  <td>{{ item.vtd_created_at }}</td>
+                  <td>{{ item.aud_username }}</td>
+                  <td>{{ item.aud_email }}</td>
+                  <td>{{ item.aud_mobile_number }}</td>
+                  <td>{{ item.aud_subsc_package }}</td>
+
+                  <td >{{ item.aud_start_date }}</td>
+                  <td >{{ item.aud_end_date }}</td>
+
+                  <td>{{ item.aud_created_at }}</td>
 
 
               </tr>
@@ -58,11 +65,11 @@
           <nav aria-label="...">
               <ul class="pagination pagination-sm justify-content-center">
 
-                  <li class="page-item"><a class="page-link" href="{% url 'vender_transection_view_pagination' prev_pagenumber  %}">
+                  <li class="page-item"><a class="page-link" href="{% url 'users_of_vender_pagination' page_number=prev_pagenumber user_id=user_id %}">
                           pre
                       </a></li>
                   <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
-                  <li class="page-item"><a class="page-link" href="{% url 'vender_transection_view_pagination' next_page_number  %}">
+                  <li class="page-item"><a class="page-link" href="{% url 'users_of_vender_pagination' page_number=next_page_number user_id=user_id %}">
                           next </a></li>
               </ul>
           </nav>

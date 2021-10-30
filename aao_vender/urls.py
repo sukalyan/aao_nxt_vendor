@@ -15,9 +15,20 @@ urlpatterns = [
 
 
     path('create_aao_user/', views.create_aao_user,name='create_aao_user'),
+    path('create_aao_user_extend_package/', views.create_aao_user_extend_package,name='create_aao_user_extend_package'),
+
+
 
     path('view_aao_user/', views.view_aao_user,name='view_aao_user'),
     path('view_aao_user_pagination/<int:page_number>', views.view_aao_user_pagination,name='view_aao_user_pagination'),
     path('vender_transection_view/', views.vender_transection_view,name='vender_transection_view'),
     path('vender_transection_view_pagination/<int:page_number>', views.vender_transection_view_pagination,name='vender_transection_view_pagination'),
+    path('users_of_vender/<int:user_id>', views.users_of_vender,name='users_of_vender'),
+    path('users_of_vender_pagination/<int:user_id>/<int:page_number>', views.users_of_vender_pagination,name='users_of_vender_pagination'),
+
+    path('view_aao_user_order/<int:aao_user_id>', views.view_aao_user_order,name='view_aao_user_order'),
+    path('view_aao_user_order_pagination/<int:aao_user_id>/<int:page_number>', views.view_aao_user_order_pagination,name='view_aao_user_order_pagination'),
+
+
+
 ]

@@ -21,6 +21,7 @@ import  aao_vender.restviews  as restviews
 
 router = routers.DefaultRouter()
 router.register(r'users', restviews.UserViewSet)
+router.register(r'userstatus', restviews.UserStatusViewSet)
 
 
 urlpatterns = [

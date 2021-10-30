@@ -61,13 +61,15 @@ def creat_remote_user(mobile_number,username,plan):
         return return_data_api
 
     except Exception as e:
-        return {"fail_server":"servererror"}
+        print(str(e))
+        return {"fail_server":str(e)}
 
 
 def create_remote_user2(mobile_number,username,plan):
     try:
         url = conf['AAO_NXT_URL']+"users/outerapi"
-        
+        print(url,"url")
+
         payload='''{"name":"'''+username +'''","mobile":"+91'''+mobile_number+'''","plan":"'''+plan+'''"}'''
         print('payload----------',payload)
         headers = {
@@ -78,20 +80,23 @@ def create_remote_user2(mobile_number,username,plan):
 
         response = requests.request("POST", url, headers=headers, data=payload)
         data=response.text
-        res = json.loads(data)
-        return res
         
+        res = json.loads(data)
+        #print(res,"res")
+        return res
+
     except Exception as e:
-        return {"fail_server":"servererror"}
+        return {"fail_server_d":str(e)}
 
 
 
 
 
-def transection_fun(vender,user_aao,totalprice,user_data):
+def transection_fun(vender,user_aao,totalprice,user_data,package_name):
 
     user_aao_order = Aoo_User_Order_Details(auod_vender=vender,
                                             auod_user=user_aao,
+                                            auod_subsc_package_name = package_name,
                                             auod_subsc_package = user_data['totalmonth'],
                                             auod_start_date = user_data['start_date'],
                                             auod_end_date = user_data['end_date']
@@ -124,4 +129,3 @@ def transection_fun(vender,user_aao,totalprice,user_data):
     # except Exception as e:
     #     print(str(e),"something error happened")
     #     return False
-
