@@ -35,7 +35,31 @@ class ApiAuthentication(authentication.BaseAuthentication):
 
         return (user, None)
 
-
+class UserStatusViewSet(viewsets.ModelViewSet):
+    authentication_classes = [SessionAuthentication, ApiAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserStatusSerializer
+    queryset=Aoo_User_Details.objects.all().order_by('-aud_id')
+    renderer_classes = (JSONRenderer, XMLRenderer)
+    
+    def handle_exception(self, exc):
+        
+        if isinstance(exc, Http404):
+            return Response({'status': 'Failed',"data":"No Record Found"},status=status.HTTP_404_NOT_FOUND)
+            
+        elif isinstance(exc, AuthenticationFailed):
+            return Response({'status': 'Error',"data":exc.detail},status=status.HTTP_403_FORBIDDEN)
+            
+        elif isinstance(exc, ValidationError):
+            return Response({'status': 'Failed',"data":exc.detail},status=status.HTTP_400_BAD_REQUEST)
+            
+    def retrieve(self, request, *args, **kwargs):
+        response_data=super(UserViewSet, self).retrieve(request, *args, **kwargs)
+        return Response({"status": "Success","data":response_data.data})  # Your overrid  
+        
+    def get_queryset(self):       
+        return Aoo_User_Details.objects.filter(aud_vender= self.request.user).order_by('-aud_id')
+        
 
 class UserViewSet(viewsets.ModelViewSet):
     """
