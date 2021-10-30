@@ -5,7 +5,7 @@ from rest_framework import exceptions
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
-from .serializers import UserSerializer
+from .serializers import UserSerializer,UserStatusSerializer
 from .models import *
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
