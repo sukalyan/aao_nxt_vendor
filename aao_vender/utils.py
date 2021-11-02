@@ -68,10 +68,10 @@ def creat_remote_user(mobile_number,username,plan):
 def create_remote_user2(mobile_number,username,plan):
     try:
         url = conf['AAO_NXT_URL']+"users/outerapi"
-        print(url,"url")
+       
 
         payload='''{"name":"'''+username +'''","mobile":"+91'''+mobile_number+'''","plan":"'''+plan+'''"}'''
-        print('payload----------',payload)
+       
         headers = {
           'accept': 'application/json',
           'aao_token': 'yZNqkApikAsRD3pW',
@@ -82,7 +82,7 @@ def create_remote_user2(mobile_number,username,plan):
         data=response.text
         
         res = json.loads(data)
-        #print(res,"res")
+        
         return res
 
     except Exception as e:

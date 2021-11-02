@@ -32,7 +32,10 @@ urlpatterns = [
     path('logout_view/', views.logout_view, name='logout_view'),
     path('error_page/', views.error_page, name='error_page'),
     path('api/', include(router.urls)),
+    path('api/user_renew', restviews.UserRenewViewSet.as_view()),
+    path('api/user_renew/', restviews.UserRenewViewSet.as_view()),
     path('api/userstatus', restviews.UserStatusViewSet.as_view()),
     path('api/userstatus/', restviews.UserStatusViewSet.as_view()),
+    
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
