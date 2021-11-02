@@ -457,7 +457,12 @@ def create_aao_user(request):
             return_status = create_remote_user2(mobile_number,username,vender_plan)
 
             if "success" in return_status:
-                pass
+                if(return_status['success']==False):
+                    messages.error(request, return_status['message'])
+                    form={'package_categtory': input_month,'username': username,'email_id':email_id,'mobile_number':mobile_number}
+                    return render(request, 'vender/create_user_form.html',form )
+                else:
+                    pass
             else:
                 if "fail_server" in return_status:
                     messages.error(request, "fail_server"+return_status['fail_server'])
@@ -542,7 +547,12 @@ def create_aao_user_extend_package(request):
         return_status = create_remote_user2(mobile_number,username,vender_plan)
 
         if "success" in return_status:
-            pass
+            if(return_status['success']==False):
+                messages.error(request, return_status['message'])
+                form={'package_categtory': input_month,'username': username,'email_id':email_id,'mobile_number':mobile_number}
+                return render(request, 'vender/create_user_form.html',form )
+            else:
+                pass
         else:
             if "fail_server" in return_status:
                 messages.error(request, "fail_server"+return_status['fail_server'])

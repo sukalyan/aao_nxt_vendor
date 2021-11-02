@@ -42,7 +42,18 @@ PARSER_CLASSES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': PARSER_CLASSES,
-    'DEFAULT_RENDERER_CLASSES': RENDERER_CLASSES
+    'DEFAULT_RENDERER_CLASSES': RENDERER_CLASSES,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        
+        "rest_framework.authentication.BasicAuthentication",
+       
+       
+    ),
+   
 }
 
 

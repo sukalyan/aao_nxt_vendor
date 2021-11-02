@@ -56,9 +56,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError({"detail":"Member Plan is not assigned yet, contact admin"})
         
         remotestatus = create_remote_user2(mobile,username,vender_plan)
-        print(remotestatus)
+       
         if "success" in remotestatus:
-            pass
+            if(remotestatus['success']==False):
+                raise serializers.ValidationError({"detail":remotestatus['message']})
+            else:
+                pass
         else:
             if "fail_server" in remotestatus:
                 raise serializers.ValidationError({"detail":"Error From Aoonxt Server or Plan Missmatche"})
