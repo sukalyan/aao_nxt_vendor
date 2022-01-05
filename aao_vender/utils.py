@@ -82,7 +82,7 @@ def create_remote_user2(mobile_number,username,plan):
         data=response.text
         
         res = json.loads(data)
-        
+       
         return res
 
     except Exception as e:

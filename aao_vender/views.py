@@ -7,8 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from .models import *
 from .utils import transection_fun,creat_remote_user,create_remote_user2
+from django.views.decorators.csrf import csrf_exempt
 
-from datetime import date, timedelta
+from datetime import date, timedelta,datetime
 
 from django.utils import timezone
 import pytz
@@ -172,6 +173,7 @@ def view_vender_pagination(request,page_number):
 
 @login_required(login_url='/login/')
 @user_passes_test(lambda u: u.is_superuser)
+@csrf_exempt
 def users_of_vender(request,user_id):
     if request.method =='GET':
         #query_results = site_master.objects.all()
@@ -206,8 +208,67 @@ def users_of_vender(request,user_id):
 
 @login_required(login_url='/login/')
 @user_passes_test(lambda u: u.is_superuser)
+@csrf_exempt
 def users_of_vender_pagination(request,user_id,page_number):
-    if request.method =='GET':
+    if request.method =='POST':
+        from_date = request.POST.get("from_date")
+        to_date = request.POST.get("to_date")
+
+        print(type(from_date),"from_date")
+        print(to_date,"to_date")
+
+        #query_results = site_master.objects.all()
+        if page_number != 1:
+            curent_page = int(page_number)
+            page_number = page_number-1
+            prev_pagenumber = curent_page - 1
+            pagedata_starting = page_number * 20
+            pagedata_ending = pagedata_starting + 20
+        else:
+            curent_page = 1
+            page_number = 1
+            prev_pagenumber = 1
+            pagedata_starting = 0
+            pagedata_ending = pagedata_starting + 20
+
+        next_page_number = curent_page + 1
+
+        user_data = User.objects.get(pk=user_id)
+        totaldata = Aoo_User_Details.objects.filter(
+            aud_vender = user_data).count()
+        
+        if ("-" not in from_date) or ("-" not in to_date) :
+
+            query_results = Aoo_User_Details.objects.filter(aud_vender = user_data).order_by('aud_created_at')[pagedata_starting:pagedata_ending]
+        else:
+            unaware_start_date = datetime.strptime(from_date, '%Y-%m-%d')
+            from_date_d = pytz.utc.localize(unaware_start_date)
+
+            unaware_to_date = datetime.strptime(to_date, '%Y-%m-%d')
+
+            to_date_d = pytz.utc.localize(unaware_to_date)
+
+            query_results = Aoo_User_Details.objects.filter(aud_vender = user_data).filter(aud_created_at__range=[from_date_d, to_date_d]).order_by('aud_created_at')[pagedata_starting:pagedata_ending]
+            totaldata = Aoo_User_Details.objects.filter(aud_vender = user_data).filter(aud_created_at__range=[from_date_d, to_date_d]).count()
+
+        showingdata = query_results.count()
+        #
+
+        context = {"query_results":query_results,
+                   'totaldata':totaldata,
+                   'curent_page':curent_page,
+                   'pagedata_starting':pagedata_starting,
+                   'prev_pagenumber':prev_pagenumber,
+                   'next_page_number':next_page_number,
+                   'from_date_data':from_date,
+                   'to_date_data':to_date,
+                   'showingdata':showingdata,
+                   'user_id':user_id
+
+                   }
+        return render(request, 'vender/users_of_vender_view.html', context)
+    
+    else:
 
         #query_results = site_master.objects.all()
         if page_number != 1:
@@ -229,9 +290,9 @@ def users_of_vender_pagination(request,user_id,page_number):
         totaldata = Aoo_User_Details.objects.filter(
             aud_vender = user_data).count()
 
-        query_results = Aoo_User_Details.objects.filter(
-            aud_vender = user_data).order_by('aud_created_at')[pagedata_starting:pagedata_ending]
+        query_results = Aoo_User_Details.objects.filter(aud_vender = user_data).order_by('aud_created_at')[pagedata_starting:pagedata_ending]
         showingdata = query_results.count()
+        #.filter(aud_created_at__range=["2011-01-01", "2011-01-31"])
 
         context = {"query_results":query_results,
                    'totaldata':totaldata,
