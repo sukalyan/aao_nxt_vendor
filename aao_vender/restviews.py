@@ -91,7 +91,6 @@ class UserRenewViewSet(generics.GenericAPIView):
         
         remotestatus = create_remote_user2(aud_mobile_number,user_details.aud_email,vender_plan)
         
-       
         if "success" in remotestatus:
             
             if(remotestatus['success']==False):
@@ -166,14 +165,15 @@ class UserStatusViewSet(generics.GenericAPIView):
               "subscription":subscription
             })
             
-            headers = {
-              
+            headers = {              
               'auth_token': 'yZNqkApddadikAsRD3pW',
               'Content-Type': 'application/json'
             }
             response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
             data=response.text
             res = json.loads(data)
+            print(res)
             if(res.get('Status')):
                 return Response({"status": "Success","data":res})  # Your overrid
             else:
