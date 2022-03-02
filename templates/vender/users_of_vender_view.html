@@ -11,15 +11,40 @@
               <li class="breadcrumb-item active">aoonxt user</li>
 
           </ol>
+          <form class="" action="{% url 'users_of_vender_pagination' page_number=1 user_id=user_id %}" method="post">
 
           <div class="row justify-content-between">
-              <div class="col-4">
+            
+                {% csrf_token %}
+              <div class="col-2">
                   Total data found:{{ totaldata }}
               </div>
-              <div class="col-4">
+
+              <div class="col-2">
+                <label for="from_date">FROM:</label>
+                
+                <input  type="date" id="from_date" value="{{ from_date_data }}" name="from_date">
+            </div>
+
+
+            <div class="col-2">
+                <label for="to_date">TO:</label>
+             
+                <input  type="date" id="to_date"  value="{{ to_date_data }}" name="to_date">
+            </div>
+
+            <div class="col-2">
+                <button class="page-link" type="submit">Filter</button>
+            </div>
+
+              
+              
+              <div class="col-2">
                   showing data :{{ showingdata }}
               </div>
+              
           </div>
+        </form>
 
 
 
@@ -30,7 +55,7 @@
 
                   <!-- <th>QR_CODE</th> -->
 
-                  <th>sl no</th>
+                  <th>sl no.</th>
                   <th>user name</th>
                   <th>email</th>
                   <th>mobile number</th>
@@ -65,20 +90,51 @@
           <nav aria-label="...">
               <ul class="pagination pagination-sm justify-content-center">
 
-                  <li class="page-item"><a class="page-link" href="{% url 'users_of_vender_pagination' page_number=prev_pagenumber user_id=user_id %}">
-                          pre
-                      </a></li>
+                  <li class="page-item">
+                    <form  class="" action="{% url 'users_of_vender_pagination' page_number=prev_pagenumber user_id=user_id %}" method="post">
+                        {% csrf_token %}
+                        <input  type="hidden" id="from_date_fetch_pre" value="{{ from_date_data }}" name="from_date">
+                        <input  type="hidden" id="to_date_fetch_pre"value="{{ to_date_data }}" name="to_date">
+                        <button class="page-link" type="submit">Previous</button>
+                    </form>
+                          
+                      </li>
                   <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
-                  <li class="page-item"><a class="page-link" href="{% url 'users_of_vender_pagination' page_number=next_page_number user_id=user_id %}">
-                          next </a></li>
+                  <li class="page-item">
+                        
+                          <form class="" action="{% url 'users_of_vender_pagination' page_number=next_page_number user_id=user_id %}" method="post">
+                            {% csrf_token %}
+                            <input  type="hidden" id="from_date_fetch_next" value="{{ from_date_data }}" name="from_date">
+                            <input  type="hidden" id="to_date_fetch_next" value="{{ to_date_data }}" name="to_date">
+                            <button class="page-link" type="submit">Next</button>
+                        </form></li>
               </ul>
           </nav>
       </div>
   </main>
 
 
-
-
-
-
 {% endblock %}
+
+
+{% block content_custom_script %}
+
+<script>
+    
+$('#from_date').change(function() {
+    var date_from = $(this).val();
+    $('#from_date_fetch_pre').val(date_from);
+    $('#from_date_fetch_next').val(date_from);
+    
+});
+
+$('#to_date').change(function() {
+    var date_to = $(this).val();
+    $('#to_date_fetch_pre').val(date_to);
+    $('#to_date_fetch_next').val(date_to);
+    
+});
+
+</script>
+
+		{% endblock %}
